@@ -1,0 +1,74 @@
+run:
+  deadline: 30s
+  issues-exit-code: 1
+  tests: true
+  build-tags:
+    - linter
+
+linters:
+  disable-all: true
+  enable:
+    - govet
+    - staticcheck
+    - gosimple
+    - structcheck
+    - ineffassign
+    - typecheck
+    - goimports
+    - golint
+    - stylecheck
+    - gosec
+    - unconvert
+    - goconst
+    - gofmt
+    - depguard
+    - maligned
+    - depguard
+    - misspell
+    - unparam
+    - nakedret
+    - scopelint
+    - gocritic
+    - gocyclo
+    - errcheck
+    - dupl
+    - interfacer
+    - prealloc
+    - varcheck
+    - deadcode
+    - whitespace
+    - dogsled
+    - funlen
+    - godox
+    - bodyclose
+    - unused
+
+
+linters-settings:
+  govet:
+    check-shadowing: true
+  golint:
+    min-confidence: 0
+  goconst:
+    min-occurrences: 4
+  depguard:
+    list-type: blacklist
+  gocritic:
+    enabled-tags:
+      - performance
+      - style
+      - experimental
+  misspell:
+    locale: US
+  gocyclo:
+    min-complexity: 14
+  funlen:
+    lines: 120
+    statements: 60
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+
+service:
+  golangci-lint-version: 1.26.x
