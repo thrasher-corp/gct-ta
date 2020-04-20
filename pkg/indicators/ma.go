@@ -92,10 +92,10 @@ func calcMACD(inA []float64, inB []float64) []float64 {
 func MACD(values []float64, fastPeriod, slowPeriod, signalPeriod int) (macdValues, signalPeriodValues, histogramValues []float64) {
 	fastPeriodValues := ema(values, fastPeriod, true)
 	slowPeriodValues := ema(values, slowPeriod, true)
-	macdValues = calcMACD(fastPeriodValues, slowPeriodValues, fastPeriod, slowPeriod)
+	macdValues = calcMACD(fastPeriodValues, slowPeriodValues)
 	signalPeriodValues = ema(macdValues, signalPeriod, true)
 	macdValues, signalPeriodValues = evenSlice(macdValues, signalPeriodValues)
-	histogramValues = calcMACD(macdValues, signalPeriodValues, 0, 0)
+	histogramValues = calcMACD(macdValues, signalPeriodValues)
 	return macdValues, signalPeriodValues, histogramValues
 }
 
