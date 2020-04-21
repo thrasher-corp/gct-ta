@@ -17,4 +17,12 @@ func TestRSI(t *testing.T) {
 			t.Fatalf("unexpected value returned %v", ret[x])
 		}
 	}
+
+	ret = RSI(testClose, 1)
+	for x := range ret {
+		if ret[x] != 0 {
+			t.Fatalf("unexpected value returned %v", ret[x])
+		}
+	}
+	t.Log(ret)
 }

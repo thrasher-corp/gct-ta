@@ -34,11 +34,11 @@ func ATR(inHigh, inLow, inClose []float64, inTimePeriod int) []float64 {
 	}
 
 	if inTimePeriod == 1 {
-		return TrueRange(inHigh, inLow, inClose)
+		return trueRange(inHigh, inLow, inClose)
 	}
 
 	today := inTimePeriod + 1
-	tr := TrueRange(inHigh, inLow, inClose)
+	tr := trueRange(inHigh, inLow, inClose)
 	prevATRTemp := SMA(tr, inTimePeriod)
 	prevATR := prevATRTemp[inTimePeriod]
 	outReal[inTimePeriod] = prevATR

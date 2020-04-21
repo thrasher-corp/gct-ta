@@ -20,7 +20,7 @@ func sma(in []float64, period int, macd bool) []float64 {
 	}
 	for i := range in {
 		if i+1 >= period {
-			avg := Mean(in[i+1-period : i+1])
+			avg := mean(in[i+1-period : i+1])
 			if macd {
 				out = append(out, avg)
 				continue

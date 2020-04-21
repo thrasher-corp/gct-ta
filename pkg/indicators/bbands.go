@@ -31,7 +31,7 @@ func BBANDS(inReal []float64, inTimePeriod int, inNbDevUp, inNbDevDn float64, in
 	outRealMiddleBand := MA(inReal, inTimePeriod, inMAType)
 	outRealLowerBand := make([]float64, len(inReal))
 
-	tempBuffer2 := StdDev(inReal, inTimePeriod, 1.0)
+	tempBuffer2 := stdDev(inReal, inTimePeriod, 1.0)
 
 	switch inNbDevUp {
 	case inNbDevDn:
