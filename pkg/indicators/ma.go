@@ -75,7 +75,7 @@ func EMA(in []float64, period int) []float64 {
 	return ema(in, period, false)
 }
 
-func calcMACD(inA []float64, inB []float64) []float64 {
+func calcMACD(inA, inB []float64) []float64 {
 	inA, inB = evenSlice(inA, inB)
 	out := make([]float64, len(inA))
 	for i := range inA {
