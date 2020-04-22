@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	gctta "github.com/thrasher-corp/gct-ta/pkg/indicators"
+	gctta "github.com/thrasher-corp/gct-ta/indicators"
 )
 
 const (
