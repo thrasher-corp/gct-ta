@@ -94,6 +94,18 @@ func MACD(values []float64, fastPeriod, slowPeriod, signalPeriod int) (macdValue
 	ret2 := make([]float64, len(values))
 	ret3 := make([]float64, len(values))
 
+	if fastPeriod > len(values) || slowPeriod > len(values) {
+		return
+	}
+
+	if fastPeriod > slowPeriod {
+		return
+	}
+
+	if signalPeriod > len(values) {
+		return
+	}
+
 	fastPeriodValues := ema(values, fastPeriod, true)
 	slowPeriodValues := ema(values, slowPeriod, true)
 	macdValues = calcMACD(fastPeriodValues, slowPeriodValues)
