@@ -24,5 +24,4 @@ func TestRSI(t *testing.T) {
 			t.Fatalf("unexpected value returned %v", ret[x])
 		}
 	}
-	t.Log(ret)
 }
