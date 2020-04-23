@@ -111,12 +111,12 @@ func MACD(values []float64, fastPeriod, slowPeriod, signalPeriod int) (macdValue
 
 	// find a better solution this is a work around for now to factor in MACD values not matching
 
-	ret := make([]float64, len(values)+1)
-	ret2 := make([]float64, len(values)+1)
-	ret3 := make([]float64, len(values)+1)
-	copy(ret[slowPeriod+(signalPeriod-1):], macdValues)
-	copy(ret2[slowPeriod+(signalPeriod-1):], signalPeriodValues)
-	copy(ret3[slowPeriod+(signalPeriod-1):], histogramValues)
+	ret := make([]float64, len(values))
+	ret2 := make([]float64, len(values))
+	ret3 := make([]float64, len(values))
+	copy(ret[slowPeriod+(signalPeriod-2):], macdValues)
+	copy(ret2[slowPeriod+(signalPeriod-2):], signalPeriodValues)
+	copy(ret3[slowPeriod+(signalPeriod-2):], histogramValues)
 
 	return ret, ret2, ret3
 }
