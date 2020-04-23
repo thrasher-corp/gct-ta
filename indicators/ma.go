@@ -90,10 +90,6 @@ func calcMACD(inA, inB []float64) []float64 {
 // MACD returns the Moving Average Convergence Divergence indicator
 // for the given fastPeriod, slowPeriod and signalPeriod
 func MACD(values []float64, fastPeriod, slowPeriod, signalPeriod int) (macdValues, signalPeriodValues, histogramValues []float64) {
-	ret := make([]float64, len(values))
-	ret2 := make([]float64, len(values))
-	ret3 := make([]float64, len(values))
-
 	if fastPeriod > len(values) || slowPeriod > len(values) {
 		return
 	}
@@ -115,9 +111,12 @@ func MACD(values []float64, fastPeriod, slowPeriod, signalPeriod int) (macdValue
 
 	// find a better solution this is a work around for now to factor in MACD values not matching
 
-	copy(ret[slowPeriod:], macdValues)
-	copy(ret2[slowPeriod:], signalPeriodValues)
-	copy(ret3[slowPeriod:], histogramValues)
+	ret := make([]float64, len(values)+1)
+	ret2 := make([]float64, len(values)+1)
+	ret3 := make([]float64, len(values)+1)
+	copy(ret[slowPeriod+(signalPeriod-1):], macdValues)
+	copy(ret2[slowPeriod+(signalPeriod-1):], signalPeriodValues)
+	copy(ret3[slowPeriod+(signalPeriod-1):], histogramValues)
 
 	return ret, ret2, ret3
 }
