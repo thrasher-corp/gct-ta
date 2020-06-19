@@ -13,6 +13,7 @@ Supported indicators so far:
 - Money Flow Index
 - On Balance Volume 
 - RSI
+- Correlation Coefficient
 
 ## Install
 
@@ -25,7 +26,7 @@ go get github.com/thrasher-corp/gct-ta
 Import it with:
 
 ```go
-import "github.com/thrasher-corp/gct-ta/pkg/indicators"
+import "github.com/thrasher-corp/gct-ta/indicators"
 ```
 
 
@@ -36,7 +37,7 @@ package main
 
 import (
     "fmt"
-    "github.com/thrasher-corp/gct-ta/pkg/indicators"
+    "github.com/thrasher-corp/gct-ta/indicators"
 )
 
 var (
