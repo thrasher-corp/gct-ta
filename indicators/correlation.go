@@ -30,7 +30,7 @@ func correlation(c1, c2 []float64) float64 {
 }
 
 func CorrelationCoefficient(c1, c2 []float64, period int) []float64 {
-	if len(c1) != len(c2) || len(c1) == 0 || len(c2) == 0 {
+	if len(c1) != len(c2) || len(c1) == 0 || len(c2) == 0 || period < 1 {
 		return nil
 	}
 

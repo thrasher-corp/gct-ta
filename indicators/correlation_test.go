@@ -29,6 +29,9 @@ func TestCorrelationCoefficient(t *testing.T) {
 	if r := CorrelationCoefficient(closures1, closures2, 100); r != nil {
 		t.Error("excess period should return nil")
 	}
+	if r := CorrelationCoefficient(closures1, closures2, -1); r != nil {
+		t.Error("negative period should return nil")
+	}
 	if r := CorrelationCoefficient(closures1, closures2, 5); r[4] != 0.9370153710333355 || r[9] != 0.5294441817654052 {
 		t.Error("unexpected result")
 	}
