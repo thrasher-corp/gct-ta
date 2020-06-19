@@ -29,6 +29,7 @@ func correlation(c1, c2 []float64) float64 {
 		(math.Sqrt((l*sumpx - math.Pow(sumx, 2)) * (l*sumpy - math.Pow(sumy, 2))))
 }
 
+// CorrelationCoefficient implements correlation coefficient
 func CorrelationCoefficient(c1, c2 []float64, period int) []float64 {
 	if len(c1) != len(c2) || len(c1) == 0 || len(c2) == 0 || period < 1 {
 		return nil
@@ -39,10 +40,9 @@ func CorrelationCoefficient(c1, c2 []float64, period int) []float64 {
 	}
 
 	r := make([]float64, len(c1))
-	r[period-1] = correlation(c1[:period], c2[:period])
-	for x := period; x < len(c1); x++ {
-		idx := x - period + 1
-		r[x] = correlation(c1[idx:idx+period], c2[idx:idx+period])
+	for x := period - 1; x < len(c1); x++ {
+		idx := x + 1
+		r[x] = correlation(c1[idx-period:idx], c2[idx-period:idx])
 	}
 	return r
 }
