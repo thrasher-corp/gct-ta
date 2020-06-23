@@ -255,100 +255,100 @@ func parseData(data *ohlcResponse, period string) []candle {
 	case "60":
 		candles := make([]candle, len(data.Result.Num60))
 		for x := range data.Result.Num60 {
-			candles[x].open = data.Result.Num60[x][0]
-			candles[x].high = data.Result.Num60[x][1]
-			candles[x].low = data.Result.Num60[x][2]
-			candles[x].close = data.Result.Num60[x][3]
-			candles[x].vol = data.Result.Num60[x][4]
+			candles[x].open = data.Result.Num60[x][1]
+			candles[x].high = data.Result.Num60[x][2]
+			candles[x].low = data.Result.Num60[x][3]
+			candles[x].close = data.Result.Num60[x][4]
+			candles[x].vol = data.Result.Num60[x][5]
 		}
 		return candles
 	case "180":
 		candles := make([]candle, len(data.Result.Num180))
 		for x := range data.Result.Num180 {
-			candles[x].open = data.Result.Num180[x][0]
-			candles[x].high = data.Result.Num180[x][1]
-			candles[x].low = data.Result.Num180[x][2]
-			candles[x].close = data.Result.Num180[x][3]
-			candles[x].vol = data.Result.Num180[x][4]
+			candles[x].open = data.Result.Num180[x][1]
+			candles[x].high = data.Result.Num180[x][2]
+			candles[x].low = data.Result.Num180[x][3]
+			candles[x].close = data.Result.Num180[x][4]
+			candles[x].vol = data.Result.Num180[x][5]
 		}
 		return candles
 	case "300":
 		candles := make([]candle, len(data.Result.Num300))
 		for x := range data.Result.Num300 {
-			candles[x].open = data.Result.Num300[x][0]
-			candles[x].high = data.Result.Num300[x][1]
-			candles[x].low = data.Result.Num300[x][2]
-			candles[x].close = data.Result.Num300[x][3]
-			candles[x].vol = data.Result.Num300[x][4]
+			candles[x].open = data.Result.Num300[x][1]
+			candles[x].high = data.Result.Num300[x][2]
+			candles[x].low = data.Result.Num300[x][3]
+			candles[x].close = data.Result.Num300[x][4]
+			candles[x].vol = data.Result.Num300[x][5]
 		}
 		return candles
 	case "1800":
 		candles := make([]candle, len(data.Result.Num1800))
 		for x := range data.Result.Num1800 {
-			candles[x].open = data.Result.Num1800[x][0]
-			candles[x].high = data.Result.Num1800[x][1]
-			candles[x].low = data.Result.Num1800[x][2]
-			candles[x].close = data.Result.Num1800[x][3]
-			candles[x].vol = data.Result.Num1800[x][4]
+			candles[x].open = data.Result.Num1800[x][1]
+			candles[x].high = data.Result.Num1800[x][2]
+			candles[x].low = data.Result.Num1800[x][3]
+			candles[x].close = data.Result.Num1800[x][4]
+			candles[x].vol = data.Result.Num1800[x][5]
 		}
 		return candles
 	case "3600":
 		candles := make([]candle, len(data.Result.Num3600))
 		for x := range data.Result.Num3600 {
-			candles[x].open = data.Result.Num3600[x][0]
-			candles[x].high = data.Result.Num3600[x][1]
-			candles[x].low = data.Result.Num3600[x][2]
-			candles[x].close = data.Result.Num3600[x][3]
-			candles[x].vol = data.Result.Num3600[x][4]
+			candles[x].open = data.Result.Num3600[x][1]
+			candles[x].high = data.Result.Num3600[x][2]
+			candles[x].low = data.Result.Num3600[x][3]
+			candles[x].close = data.Result.Num3600[x][4]
+			candles[x].vol = data.Result.Num3600[x][5]
 		}
 		return candles
 	case "7200":
 		candles := make([]candle, len(data.Result.Num7200))
 		for x := range data.Result.Num7200 {
-			candles[x].open = data.Result.Num7200[x][0]
-			candles[x].high = data.Result.Num7200[x][1]
-			candles[x].low = data.Result.Num7200[x][2]
-			candles[x].close = data.Result.Num7200[x][3]
-			candles[x].vol = data.Result.Num7200[x][4]
+			candles[x].open = data.Result.Num7200[x][1]
+			candles[x].high = data.Result.Num7200[x][2]
+			candles[x].low = data.Result.Num7200[x][3]
+			candles[x].close = data.Result.Num7200[x][4]
+			candles[x].vol = data.Result.Num7200[x][5]
 		}
 		return candles
 	case "14400":
 		candles := make([]candle, len(data.Result.Num14400))
 		for x := range data.Result.Num14400 {
-			candles[x].open = data.Result.Num14400[x][0]
-			candles[x].high = data.Result.Num14400[x][1]
-			candles[x].low = data.Result.Num14400[x][2]
-			candles[x].close = data.Result.Num14400[x][3]
-			candles[x].vol = data.Result.Num14400[x][4]
+			candles[x].open = data.Result.Num14400[x][1]
+			candles[x].high = data.Result.Num14400[x][2]
+			candles[x].low = data.Result.Num14400[x][3]
+			candles[x].close = data.Result.Num14400[x][4]
+			candles[x].vol = data.Result.Num14400[x][5]
 		}
 		return candles
 	case "21600":
 		candles := make([]candle, len(data.Result.Num21600))
 		for x := range data.Result.Num21600 {
-			candles[x].open = data.Result.Num21600[x][0]
-			candles[x].high = data.Result.Num21600[x][1]
-			candles[x].low = data.Result.Num21600[x][2]
-			candles[x].close = data.Result.Num21600[x][3]
-			candles[x].vol = data.Result.Num21600[x][4]
+			candles[x].open = data.Result.Num21600[x][1]
+			candles[x].high = data.Result.Num21600[x][2]
+			candles[x].low = data.Result.Num21600[x][3]
+			candles[x].close = data.Result.Num21600[x][4]
+			candles[x].vol = data.Result.Num21600[x][5]
 		}
 	case "43200":
 		candles := make([]candle, len(data.Result.Num43200))
 		for x := range data.Result.Num43200 {
-			candles[x].open = data.Result.Num43200[x][0]
-			candles[x].high = data.Result.Num43200[x][1]
-			candles[x].low = data.Result.Num43200[x][2]
-			candles[x].close = data.Result.Num43200[x][3]
-			candles[x].vol = data.Result.Num43200[x][4]
+			candles[x].open = data.Result.Num43200[x][1]
+			candles[x].high = data.Result.Num43200[x][2]
+			candles[x].low = data.Result.Num43200[x][3]
+			candles[x].close = data.Result.Num43200[x][4]
+			candles[x].vol = data.Result.Num43200[x][5]
 		}
 		return candles
 	case "86400":
 		candles := make([]candle, len(data.Result.Num86400))
 		for x := range data.Result.Num86400 {
-			candles[x].open = data.Result.Num86400[x][0]
-			candles[x].high = data.Result.Num86400[x][1]
-			candles[x].low = data.Result.Num86400[x][2]
-			candles[x].close = data.Result.Num86400[x][3]
-			candles[x].vol = data.Result.Num86400[x][4]
+			candles[x].open = data.Result.Num86400[x][1]
+			candles[x].high = data.Result.Num86400[x][2]
+			candles[x].low = data.Result.Num86400[x][3]
+			candles[x].close = data.Result.Num86400[x][4]
+			candles[x].vol = data.Result.Num86400[x][5]
 		}
 		return candles
 	}
