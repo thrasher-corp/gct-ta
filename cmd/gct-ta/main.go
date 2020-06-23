@@ -22,7 +22,7 @@ const (
 
 var (
 	exchange      string
-	currencyPair  string
+	pairs         string
 	start         string
 	end           string
 	period        string
@@ -68,7 +68,7 @@ type output struct {
 
 func main() {
 	flag.StringVar(&exchange, "exchange", "binance", "exchange <name>")
-	flag.StringVar(&currencyPair, "currency", "btcusdt", "currency <pair>")
+	flag.StringVar(&pairs, "pairs", "btcusdt", "currency pair or pairs, separated by `,`>")
 	flag.StringVar(&start, "start", time.Now().Add(-time.Hour*24).Format(timeFormat), "period <interval>")
 	flag.StringVar(&end, "end", time.Now().Format(timeFormat), "period <interval>")
 	flag.StringVar(&period, "period", "60", "period <interval>")
@@ -84,15 +84,39 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	if strings.EqualFold(indicator, "correlation") {
+		if strings.Count(pairs, ",") != 1 {
+			log.Fatal("invalid correlation pair args, must be in the format of 'btcusdt,ethusdt'")
+		}
+	} else {
+		if strings.Count(pairs, ",") > 0 {
+			log.Fatal("invalid pair supplied, must specify a single one: 'btcusdt'")
+		}
+	}
+
 	fmt.Printf("Exchange: %v\n", exchange)
-	fmt.Printf("Currency: %v\n", currencyPair)
+	fmt.Printf("Pair(s): %v\n", pairs)
 	fmt.Printf("Period: %v\n", period)
 	fmt.Printf("Start: %v\n", start)
 	fmt.Printf("End: %v\n", end)
 	fmt.Printf("Indicator: %v args: %v\n\n", indicator, indicatorArgs)
-	data := getCryptoWatchData(exchange, currencyPair, startTime, endTime, period)
-	parsed := parseData(data, period)
-	ret, err := indicatorParse(parsed, strings.ToLower(indicator), indicatorArgs)
+
+	var candles [][]candle
+	if strings.EqualFold(indicator, "correlation") {
+		candles = make([][]candle, 2)
+		currencies := strings.Split(pairs, ",")
+		for x := range currencies {
+			data := getCryptoWatchData(exchange, currencies[x], startTime, endTime, period)
+			candles[x] = parseData(data, period)
+		}
+	} else {
+		candles = make([][]candle, 1)
+		data := getCryptoWatchData(exchange, pairs, startTime, endTime, period)
+		candles[0] = parseData(data, period)
+	}
+
+	ret, err := indicatorParse(candles, strings.ToLower(indicator), indicatorArgs)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -105,7 +129,7 @@ func main() {
 }
 
 // nolint gocyclo alternatives are to use reflection this is code increase v performance cost
-func indicatorParse(input []candle, indicator, args string) (output, error) {
+func indicatorParse(input [][]candle, indicator, args string) (output, error) {
 	out := make([][]float64, 1)
 	var interval int
 	type ohlcStruct struct {
@@ -116,19 +140,18 @@ func indicatorParse(input []candle, indicator, args string) (output, error) {
 		vol   []float64
 	}
 
-	var ohlcvData ohlcStruct
-	ohlcvData.open = make([]float64, len(input))
-	ohlcvData.high = make([]float64, len(input))
-	ohlcvData.low = make([]float64, len(input))
-	ohlcvData.close = make([]float64, len(input))
-	ohlcvData.vol = make([]float64, len(input))
-
+	ohlcvData := make([]ohlcStruct, 2)
 	for x := range input {
-		ohlcvData.open[x] = input[x].open
-		ohlcvData.high[x] = input[x].high
-		ohlcvData.low[x] = input[x].low
-		ohlcvData.close[x] = input[x].close
-		ohlcvData.vol[x] = input[x].vol
+		ohlcvData[x].open = make([]float64, len(input[x]))
+		ohlcvData[x].high = make([]float64, len(input[x]))
+		ohlcvData[x].low = make([]float64, len(input[x]))
+		ohlcvData[x].close = make([]float64, len(input[x]))
+		for y := range input[x] {
+			ohlcvData[x].open[y] = input[x][y].open
+			ohlcvData[x].high[y] = input[x][y].high
+			ohlcvData[x].low[y] = input[x][y].low
+			ohlcvData[x].close[y] = input[x][y].close
+		}
 	}
 
 	switch indicator {
@@ -138,37 +161,37 @@ func indicatorParse(input []candle, indicator, args string) (output, error) {
 			return output{}, err
 		}
 		interval = timeInput
-		out[0] = gctta.EMA(ohlcvData.close, timeInput)
+		out[0] = gctta.EMA(ohlcvData[0].close, timeInput)
 	case "sma":
 		timeInput, err := strconv.Atoi(args)
 		if err != nil {
 			return output{}, err
 		}
 		interval = timeInput
-		out[0] = gctta.SMA(ohlcvData.close, timeInput)
+		out[0] = gctta.SMA(ohlcvData[0].close, timeInput)
 	case "rsi":
 		timeInput, err := strconv.Atoi(args)
 		if err != nil {
 			return output{}, err
 		}
 		interval = timeInput
-		out[0] = gctta.RSI(ohlcvData.close, timeInput)
+		out[0] = gctta.RSI(ohlcvData[0].close, timeInput)
 	case "atr":
 		timeInput, err := strconv.Atoi(args)
 		if err != nil {
 			return output{}, err
 		}
 		interval = timeInput
-		out[0] = gctta.ATR(ohlcvData.high, ohlcvData.low, ohlcvData.close, timeInput)
+		out[0] = gctta.ATR(ohlcvData[0].high, ohlcvData[0].low, ohlcvData[0].close, timeInput)
 	case "obv":
-		out[0] = gctta.OBV(ohlcvData.close, ohlcvData.vol)
+		out[0] = gctta.OBV(ohlcvData[0].close, ohlcvData[0].vol)
 	case "mfi":
 		timeInput, err := strconv.Atoi(args)
 		if err != nil {
 			return output{}, err
 		}
 		interval = timeInput
-		out[0] = gctta.MFI(ohlcvData.high, ohlcvData.low, ohlcvData.close, ohlcvData.vol, timeInput)
+		out[0] = gctta.MFI(ohlcvData[0].high, ohlcvData[0].low, ohlcvData[0].close, ohlcvData[0].vol, timeInput)
 	case "macd":
 		args := strings.Split(args, ",")
 		if len(args) != 3 {
@@ -187,7 +210,7 @@ func indicatorParse(input []candle, indicator, args string) (output, error) {
 			return output{}, err
 		}
 		out = make([][]float64, 3)
-		out[0], out[1], out[2] = gctta.MACD(ohlcvData.close, fast, slow, signal)
+		out[0], out[1], out[2] = gctta.MACD(ohlcvData[0].close, fast, slow, signal)
 	case "bbands":
 		args := strings.Split(args, ",")
 		if len(args) != 3 {
@@ -207,7 +230,14 @@ func indicatorParse(input []candle, indicator, args string) (output, error) {
 			return output{}, err
 		}
 		out = make([][]float64, 3)
-		out[0], out[1], out[2] = gctta.BBANDS(ohlcvData.high, timeInput, up, down, gctta.Ema)
+		out[0], out[1], out[2] = gctta.BBANDS(ohlcvData[0].high, timeInput, up, down, gctta.Ema)
+	case "correlation":
+		timeInput, err := strconv.Atoi(args)
+		if err != nil {
+			return output{}, err
+		}
+		interval = timeInput
+		out[0] = gctta.CorrelationCoefficient(ohlcvData[0].close, ohlcvData[1].close, timeInput)
 	}
 
 	return output{
