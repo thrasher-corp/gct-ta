@@ -68,7 +68,7 @@ type output struct {
 
 func main() {
 	flag.StringVar(&exchange, "exchange", "binance", "exchange <name>")
-	flag.StringVar(&pairs, "pairs", "btcusdt", "currency pair or pairs, separated by `,`>")
+	flag.StringVar(&pairs, "pairs", "btcusdt", "currency pair or pairs, separated by a comma")
 	flag.StringVar(&start, "start", time.Now().Add(-time.Hour*24).Format(timeFormat), "period <interval>")
 	flag.StringVar(&end, "end", time.Now().Format(timeFormat), "period <interval>")
 	flag.StringVar(&period, "period", "60", "period <interval>")
