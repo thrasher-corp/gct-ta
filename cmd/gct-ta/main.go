@@ -238,6 +238,8 @@ func indicatorParse(input [][]candle, indicator, args string) (output, error) {
 		}
 		interval = timeInput
 		out[0] = gctta.CorrelationCoefficient(ohlcvData[0].close, ohlcvData[1].close, timeInput)
+	default:
+		return output{}, fmt.Errorf("indicator %s is not handled", indicator)
 	}
 
 	return output{
