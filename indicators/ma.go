@@ -7,7 +7,27 @@ type MaType uint
 const (
 	Sma MaType = iota
 	Ema
+	Dpo
 )
+
+func dpo (in []float64, period int) []float64 {
+	var out []float64
+		out = make([]float64, len(in))
+	if len(in) < period {
+		return out
+	}
+	sma := sma(in, period, false)
+	for i := period * 2 - 1; i < len(in); i++ {
+		price := in[((i - period) / 2) + 1] - sma[i - period]
+		out[i] = price
+	}
+	return out
+}
+
+// DPO returns the Detrended Price Oscillator for a given period
+func DPO(in []float64, period int) []float64 {
+	return dpo(in, period)
+}
 
 // SMA returns the Simple Moving Average for the given period
 func sma(in []float64, period int, macd bool) []float64 {
@@ -52,7 +72,7 @@ func ema(in []float64, period int, macd bool) []float64 {
 	} else {
 		out[period-1] = smaRet[period-1]
 	}
-	var multiplier = (2.0 / (float64(period) + 1.0))
+	var multiplier = 2.0 / (float64(period) + 1.0)
 	for i := period; i < len(in); i++ {
 		var lastVal float64
 		if macd {
@@ -133,6 +153,8 @@ func MA(inReal []float64, inTimePeriod int, inMAType MaType) []float64 {
 		outReal = SMA(inReal, inTimePeriod)
 	case Ema:
 		outReal = EMA(inReal, inTimePeriod)
+	case Dpo:
+		outReal = DPO(inReal, inTimePeriod)
 	}
 	return outReal
 }

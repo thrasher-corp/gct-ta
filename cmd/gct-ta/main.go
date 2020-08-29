@@ -169,6 +169,13 @@ func indicatorParse(input [][]candle, indicator, args string) (output, error) {
 		}
 		interval = timeInput
 		out[0] = gctta.SMA(ohlcvData[0].close, timeInput)
+	case "dpo":
+		timeInput, err := strconv.Atoi(args)
+		if err != nil {
+			return output{}, err
+		}
+		interval = timeInput
+		out[0] = gctta.DPO(ohlcvData[0].close, timeInput)
 	case "rsi":
 		timeInput, err := strconv.Atoi(args)
 		if err != nil {
