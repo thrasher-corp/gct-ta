@@ -1,5 +1,10 @@
 package indicators
 
+import (
+	"log"
+	"math"
+)
+
 // MaType Moving Average indicator types
 type MaType uint
 
@@ -17,8 +22,14 @@ func dpo (in []float64, period int) []float64 {
 		return out
 	}
 	sma := sma(in, period, false)
-	for i := period * 2 - 1; i < len(in); i++ {
-		price := in[((i - period) / 2) + 1] - sma[i - period]
+	for i := range in {
+		if i < period {
+			continue
+		}
+		var whatty float64
+		whatty = math.Floor(float64(i) - (float64(period)) / 2 + 1)
+		log.Printf("i: %v. In: %v. sma: %v inValue: %v, smaValue: %v", i,int64(whatty) ,  i - period, in[int64(whatty)],  sma[i - period])
+		price := in[int64(whatty)] - sma[i-period]
 		out[i] = price
 	}
 	return out
